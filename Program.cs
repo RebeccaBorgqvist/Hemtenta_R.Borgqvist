@@ -2,11 +2,15 @@
 {
     public class Todo
     {
+        /// <summary>        /// TODO        ///        /// Lägg till:        ///     NY              - skapa en ny uppgift        ///     BESKRIV         - lista alla Active uppgifter, status, prio, namn och >Beskrivning<        ///     SPARA           - spara uppgifterna        ///     LADDA           - ladda listan todo.lis        ///     AKTIVERA ***    - sätt status till Active        ///     KLAR ***        - sätt status på uppgift till Ready        ///     VÄNTA ***       - sätt status på uppgift till Waiting        ///        /// Ändra:        ///     LISTA           - lista alla Active uppgifter, status, prio och namn på uppgiften        ///     LISTA ALLT      - lista alla uppgifter oavsett status        ///     SLUTA           - spara senast laddade filen och avsluta programmet        ///         /// </summary> 
+
         public static List<TodoItem> list = new List<TodoItem>();
 
         public const int Active = 1;
         public const int Waiting = 2;
         public const int Ready = 3;
+
+
         public static string StatusToString(int status)
         {
             switch (status)
@@ -17,12 +21,16 @@
                 default: return "(felaktig)";
             }
         }
+
+
         public class TodoItem
         {
             public int status;
             public int priority;
             public string task;
             public string taskDescription;
+
+
             public TodoItem(int priority, string task)
             {
                 this.status = Active;
@@ -30,6 +38,8 @@
                 this.task = task;
                 this.taskDescription = "";
             }
+
+
             public TodoItem(string todoLine)
             {
                 string[] field = todoLine.Split('|');
@@ -38,6 +48,8 @@
                 task = field[2];
                 taskDescription = field[3];
             }
+
+
             public void Print(bool verbose = false)
             {
                 string statusString = StatusToString(status);
@@ -48,6 +60,8 @@
                     Console.WriteLine();
             }
         }
+
+
         public static void ReadListFromFile()
         {
             string todoFileName = "todo.lis";
@@ -65,6 +79,8 @@
             sr.Close();
             Console.WriteLine($"Läste {numRead} rader.");
         }
+
+
         private static void PrintHeadOrFoot(bool head, bool verbose)
         {
             if (head)
@@ -77,14 +93,20 @@
             if (verbose) Console.WriteLine("----------------------------------------|");
             else Console.WriteLine();
         }
+
+
         private static void PrintHead(bool verbose)
         {
             PrintHeadOrFoot(head: true, verbose);
         }
+
+
         private static void PrintFoot(bool verbose)
         {
             PrintHeadOrFoot(head: false, verbose);
         }
+
+
         public static void PrintTodoList(bool verbose = false)
         {
             PrintHead(verbose);
@@ -94,6 +116,8 @@
             }
             PrintFoot(verbose);
         }
+
+
         public static void PrintHelp()
         {
             Console.WriteLine("Kommandon:");
@@ -102,6 +126,8 @@
             Console.WriteLine("sluta    spara att-göra-listan och sluta");
         }
     }
+
+
     class MainClass
     {
         public static void Main(string[] args)
@@ -137,6 +163,8 @@
             while (true);
         }
     }
+
+
     class MyIO
     {
         static public string ReadCommand(string prompt)
@@ -144,6 +172,8 @@
             Console.Write(prompt);
             return Console.ReadLine();
         }
+
+
         static public bool Equals(string rawCommand, string expected)
         {
             string command = rawCommand.Trim();
@@ -155,6 +185,8 @@
             }
             return false;
         }
+
+
         static public bool HasArgument(string rawCommand, string expected)
         {
             string command = rawCommand.Trim();
