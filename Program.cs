@@ -1,8 +1,7 @@
 ﻿namespace dtp15_todolist
 {
     public class Todo
-    {
-        /// <summary>        /// TODO        ///        /// Lägg till:        ///     NY                    - skapa en ny uppgift        ///     BESKRIV               - lista alla Active uppgifter, status, prio, namn och >Beskrivning<        ///     SPARA                 - spara uppgifterna        ///     LADDA                 - ladda listan todo.lis        ///     AKTIVERA /uppgift/    - sätt status till Active        ///     KLAR /uppgift/        - sätt status på uppgift till Ready        ///     VÄNTA /uppgift/       - sätt status på uppgift till Waiting        ///        /// Ändra:        ///     LISTA                 - lista alla Active uppgifter, status, prio och namn på uppgiften        ///     LISTA ALLT            - lista alla uppgifter oavsett status        ///     SLUTA                 - spara senast laddade filen och avsluta programmet        ///         /// </summary> 
+    {        // TODO        //        // Lägg till:        //     NY                    - skapa en ny uppgift        //     BESKRIV               - lista alla Active uppgifter, status, prio, namn och >Beskrivning<        //     SPARA                 - spara uppgifterna        //     LADDA                 - ladda listan todo.lis        //     AKTIVERA /uppgift/    - sätt status till Active        //     KLAR /uppgift/        - sätt status på uppgift till Ready        //     VÄNTA /uppgift/       - sätt status på uppgift till Waiting        //        // Ändra:        //     LISTA                 - lista alla Active uppgifter, status, prio och namn på uppgiften        //     LISTA ALLT            - lista alla uppgifter oavsett status        //     SLUTA                 - spara senast laddade filen och avsluta programmet
 
         public static List<TodoItem> list = new List<TodoItem>();
 
@@ -106,7 +105,7 @@
             PrintHeadOrFoot(head: false, verbose);
         }
 
-
+        // TODO - skapa en funktion som listar endast Active
         public static void PrintTodoList(bool verbose = false)
         {
             PrintHead(verbose);
@@ -117,13 +116,15 @@
             PrintFoot(verbose);
         }
 
-
+        // TODO - lägg till: ny, lista allt
         public static void PrintHelp()
         {
             Console.WriteLine("Kommandon:");
-            Console.WriteLine("hjälp    lista denna hjälp");
-            Console.WriteLine("lista    lista att-göra-listan");
-            Console.WriteLine("sluta    spara att-göra-listan och sluta");
+            Console.WriteLine("hjälp            lista denna hjälp");
+            Console.WriteLine("lista            lista att-göra-listan");
+            Console.WriteLine("lista allt       lista även väntande och avslutade uppgifter");  // done
+            Console.WriteLine("ny               lägg till en ny uppgift");  // done
+            Console.WriteLine("sluta            spara att-göra-listan och sluta");
         }
     }
 
@@ -139,22 +140,33 @@
             do
             {
                 command = MyIO.ReadCommand("> ");
+
                 if (MyIO.Equals(command, "hjälp"))
                 {
                     Todo.PrintHelp();
                 }
+
                 else if (MyIO.Equals(command, "sluta"))
                 {
                     Console.WriteLine("Hej då!");
                     break;
                 }
-                else if (MyIO.Equals(command, "lista"))
+
+                // TODO - lägg till lista
+                else if(MyIO.Equals(command, "lista"))                {                    // TBD                }
+
+                // TODO - gör om till lista allt
+                else if (MyIO.Equals(command, "lista allt"))
                 {
                     if (MyIO.HasArgument(command, "allt"))
                         Todo.PrintTodoList(verbose: true);
                     else
                         Todo.PrintTodoList(verbose: false);
                 }
+
+                // TODO - lägg till NY
+                else if(MyIO.Equals(command, "ny uppgift"))                {                    // TBD                }
+
                 else
                 {
                     Console.WriteLine($"Okänt kommando: {command}");
@@ -186,8 +198,10 @@
             return false;
         }
 
+        // TODO - lägg till funktion som listar endast Active
 
-        static public bool HasArgument(string rawCommand, string expected)
+        // listar allt oavsett status
+        static public bool HasArgument(string rawCommand, string expected) 
         {
             string command = rawCommand.Trim();
             if (command == "") return false;
