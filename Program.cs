@@ -102,11 +102,8 @@
             PrintHeadOrFoot(head: false, verbose);
         }
 
-<<<<<<< HEAD
-        // TODO - skapa en funktion som listar endast Active
-=======
 
->>>>>>> cleanup
+        // TODO - skapa en funktion som listar endast Active
         public static void PrintTodoList(bool verbose = false)
         {
             PrintHead(verbose);
@@ -117,11 +114,7 @@
             PrintFoot(verbose);
         }
 
-<<<<<<< HEAD
         // TODO - lägg till: ny, lista allt
-=======
-
->>>>>>> cleanup
         public static void PrintHelp()
         {
             Console.WriteLine("Kommandon:");
@@ -170,7 +163,7 @@
                 }
 
                 // TODO - lägg till NY
-                else if(MyIO.Equals(command, "ny uppgift"))                {                    // TBD                }
+                else if(MyIO.Equals(command, "ny uppgift"))                {                    // TBD ...                }
 
                 else
                 {
@@ -203,15 +196,10 @@
             return false;
         }
 
-<<<<<<< HEAD
-        // TODO - lägg till funktion som listar endast Active
 
+        // TODO - lägg till funktion som listar endast Active
         // listar allt oavsett status
         static public bool HasArgument(string rawCommand, string expected) 
-=======
-
-        static public bool HasArgument(string rawCommand, string expected)
->>>>>>> cleanup
         {
             string command = rawCommand.Trim();
             if (command == "") return false;
