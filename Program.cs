@@ -1,9 +1,6 @@
 ﻿namespace dtp15_todolist
-{
-    public class Todo
-    {        // TODO        //        // Lägg till:        //     NY                    - skapa en ny uppgift        //     BESKRIV               - lista alla Active uppgifter, status, prio, namn och >Beskrivning<        //     SPARA                 - spara uppgifterna        //     LADDA                 - ladda listan todo.lis        //     AKTIVERA /uppgift/    - sätt status till Active        //     KLAR /uppgift/        - sätt status på uppgift till Ready        //     VÄNTA /uppgift/       - sätt status på uppgift till Waiting        //        // Ändra:        //     LISTA                 - lista alla Active uppgifter, status, prio och namn på uppgiften        //     LISTA ALLT            - lista alla uppgifter oavsett status        //     SLUTA                 - spara senast laddade filen och avsluta programmet
-
-        public static List<TodoItem> list = new List<TodoItem>();
+{    // TODO    //    // Lägg till:    //     NY                    - skapa en ny uppgift    //     BESKRIV               - lista alla Active uppgifter, status, prio, namn och >Beskrivning<    //     SPARA                 - spara uppgifterna    //     LADDA                 - ladda listan todo.lis    //     AKTIVERA /uppgift/    - sätt status till Active    //     KLAR /uppgift/        - sätt status på uppgift till Ready    //     VÄNTA /uppgift/       - sätt status på uppgift till Waiting    //    // Ändra:    //     LISTA                 - lista alla Active uppgifter, status, prio och namn på uppgiften    //     LISTA ALLT            - lista alla uppgifter oavsett status    //     SLUTA                 - spara senast laddade filen och avsluta programmet    public class Todo
+    {        public static List<TodoItem> list = new List<TodoItem>();
 
         public const int Active = 1;
         public const int Waiting = 2;
@@ -105,7 +102,11 @@
             PrintHeadOrFoot(head: false, verbose);
         }
 
+<<<<<<< HEAD
         // TODO - skapa en funktion som listar endast Active
+=======
+
+>>>>>>> cleanup
         public static void PrintTodoList(bool verbose = false)
         {
             PrintHead(verbose);
@@ -116,7 +117,11 @@
             PrintFoot(verbose);
         }
 
+<<<<<<< HEAD
         // TODO - lägg till: ny, lista allt
+=======
+
+>>>>>>> cleanup
         public static void PrintHelp()
         {
             Console.WriteLine("Kommandon:");
@@ -198,10 +203,15 @@
             return false;
         }
 
+<<<<<<< HEAD
         // TODO - lägg till funktion som listar endast Active
 
         // listar allt oavsett status
         static public bool HasArgument(string rawCommand, string expected) 
+=======
+
+        static public bool HasArgument(string rawCommand, string expected)
+>>>>>>> cleanup
         {
             string command = rawCommand.Trim();
             if (command == "") return false;
