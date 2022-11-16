@@ -1,10 +1,7 @@
 ﻿namespace dtp15_todolist
 {
     public class Todo
-    {
-        /// <summary>        /// TODO        ///        /// Lägg till:        ///     NY              - skapa en ny uppgift        ///     BESKRIV         - lista alla Active uppgifter, status, prio, namn och >Beskrivning<        ///     SPARA           - spara uppgifterna        ///     LADDA           - ladda listan todo.lis        ///     AKTIVERA ***    - sätt status till Active        ///     KLAR ***        - sätt status på uppgift till Ready        ///     VÄNTA ***       - sätt status på uppgift till Waiting        ///        /// Ändra:        ///     LISTA           - lista alla Active uppgifter, status, prio och namn på uppgiften        ///     LISTA ALLT      - lista alla uppgifter oavsett status        ///     SLUTA           - spara senast laddade filen och avsluta programmet        ///         /// </summary> 
-
-        public static List<TodoItem> list = new List<TodoItem>();
+    {        // TODO        //        // Lägg till:        //     NY                    - skapa en ny uppgift        //     BESKRIV               - lista alla Active uppgifter, status, prio, namn och >Beskrivning<        //     SPARA                 - spara uppgifterna        //     LADDA                 - ladda listan todo.lis        //     AKTIVERA /uppgift/    - sätt status till Active        //     KLAR /uppgift/        - sätt status på uppgift till Ready        //     VÄNTA /uppgift/       - sätt status på uppgift till Waiting        //        // Ändra:        //     LISTA                 - lista alla Active uppgifter, status, prio och namn på uppgiften        //     LISTA ALLT            - lista alla uppgifter oavsett status        //     SLUTA                 - spara senast laddade filen och avsluta programmet        public static List<TodoItem> list = new List<TodoItem>();
 
         public const int Active = 1;
         public const int Waiting = 2;
