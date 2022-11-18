@@ -16,7 +16,7 @@
                 case Completed: return "completed";
                 default: return "(error)";
             }
-        }
+        }        public static void ChangeStatus(string name, int num)        {            foreach (TodoItem item in list)            {                if (item.task == name)                {                    item.status = num;                    return;                }            }        }
 
 
         public class TodoItem
@@ -59,7 +59,7 @@
 
 
         // TODO - gör en funktion för att göra en ny uppgift
-        public static void NewTask()        {            string name, description, priority, total;            Console.WriteLine("What's the task: ");            name = Console.ReadLine();            Console.WriteLine("Priority: ");            priority = Console.ReadLine();            Console.WriteLine("Description: ");            description = Console.ReadLine();            total = "1|" + priority + '|' + name + '|' + description;            Todo.list.Add(new TodoItem(total));        }        // TODO - gör en StreamWriter för att spara nya tasks på todo.lis        public static void WriteListToFile(string task)        {            using (StreamWriter sw = File.AppendText("todo.lis"))            {                sw.WriteLine(task);            }
+        public static void NewTask()        {            string name, description, priority, total;            Console.WriteLine("What's the task: ");            name = Console.ReadLine();            Console.WriteLine("Priority: ");            priority = Console.ReadLine();            Console.WriteLine("Description: ");            description = Console.ReadLine();            total = "1|" + priority + '|' + name + '|' + description;            Todo.list.Add(new TodoItem(total));        }        public static void TaskActive()        {            Console.Write("Which task do you want to change to active? ");            string task = Console.ReadLine();            Todo.ChangeStatus(task, 1);        }        public static void TaskWaiting()        {            Console.Write("Which task do you want to change to waiting? ");            string task = Console.ReadLine();            Todo.ChangeStatus(task, 2);        }        public static void TaskComplete()        {            Console.Write("Which task do you want to change to completed? ");            string task = Console.ReadLine();            Todo.ChangeStatus(task, 3);        }        // TODO - gör en StreamWriter för att spara nya tasks på todo.lis        public static void WriteListToFile(string task)        {            using (StreamWriter sw = File.AppendText("todo.lis"))            {                sw.WriteLine(task);            }
         }
 
 
@@ -107,13 +107,13 @@
         private static void PrintFoot(bool verbose)
         {
             PrintHeadOrFoot(head: false, verbose);
-        }        // TODO - skapa en funktion som listar endast Active        public static void PrintTodoList(bool verbose = true, bool active = false)
+        }        // TODO - skapa en funktion som listar endast Active        public static void PrintTodoList(bool verbose = true, bool active = false, bool waiting = false, bool completed = false)
         {
             PrintHead(verbose);
 
             foreach (TodoItem item in list)
             {
-                if (active)                {                    if (item.status == Active) item.Print(verbose);                }                    
+                if (active)                {                    if (item.status == Active) item.Print(verbose);                }                else if (waiting)                {                    if (item.status == Waiting) item.Print(verbose);                }                else if (completed)                {                    if (item.status == Completed) item.Print(verbose);                }                    
                 else                {                    item.Print(verbose);                }                    
             }
 
@@ -124,18 +124,19 @@
         // TODO - lägg till: ny, lista allt, beskriv osv.
         public static void PrintHelpAndCommandList()
         {
-            Console.WriteLine("\n                   Commands  \n");
-            Console.WriteLine("                New ----- Make a new task");                          // Delvis klar, behöver säkras från ev. buggar
-            Console.WriteLine("               Save ----- Save changes");                             // Färdig
-            Console.WriteLine("               Load ----- Load todo.lis");                            // Färdig            Console.WriteLine("               List ----- Lists the active tasks in to-do-list");
-            Console.WriteLine("           List all ----- Lists the whole to-do-list");               // Färdig
-            Console.WriteLine("        Description ----- Show the description of active tasks");     // Färdig
-            Console.WriteLine("       Describe all ----- Show the description of all tasks");        // Färdig
-            Console.WriteLine("      Active /task/ ----- Change status on task to Active");          // ej färdig funktion
-            Console.WriteLine("   Completed /task/ ----- Change status on task to Done");            // ej färdig funktion
-            Console.WriteLine("     Waiting /task/ ----- Change status on task to Waiting");         // ej färdig funktion
-            Console.WriteLine("               Help ----- Shows this list");
-            Console.WriteLine("               Quit ----- Save list and end program");                // Färdig
+            Console.WriteLine("\n Commands \n");
+            Console.WriteLine("New ------------------ Make a new task");                          // Delvis klar, behöver säkras från ev. buggar
+            Console.WriteLine("Save ----------------- Save changes");                             // Färdig
+            Console.WriteLine("Load ----------------- Load todo.lis");                            // Färdig            Console.WriteLine("List ----------------- Lists the active tasks in to-do-list");
+            Console.WriteLine("List all ------------- Lists the whole to-do-list");               // Färdig
+            Console.WriteLine("Description ---------- Show the description of active tasks");     // Färdig
+            Console.WriteLine("Describe all --------- Show the description of all tasks");        // Färdig
+            Console.WriteLine("Active /task/ -------- Change status on task to Active");          // ej färdig funktion
+            Console.WriteLine("Completed /task/ ----- Change status on task to Done");            // ej färdig funktion
+            Console.WriteLine("Waiting /task/ ------- Change status on task to Waiting");         // ej färdig funktion
+            Console.WriteLine("Clear ---------------- Clear console");
+            Console.WriteLine("Help ----------------- Shows this list");
+            Console.WriteLine("Quit ----------------- Save list and end program");                // Färdig
         }
     }    class MyIO
     {
@@ -171,13 +172,21 @@
             }
             return false;
         }
-    }    class MainClass    {        public static void Main(string[] args)        {            Console.Title = "To do list";            Console.ForegroundColor = ConsoleColor.DarkMagenta;            Console.WriteLine("\n\n                Welcome to the \n               -> To do list <- \n\n");            Todo.PrintHelpAndCommandList();            string command;            do            {                command = MyIO.ReadCommand("> ");                if (MyIO.Equals(command, "help"))                {                    Todo.PrintHelpAndCommandList();                }                // TODO - Lägg till sparfunktion                else if (MyIO.Equals(command, "quit"))                {                                       Console.WriteLine("\nGoodbye!");                    Todo.saveToFile();                    break;                }                // TODO - Listar allt just nu, ändra så endast aktiva listas, UTAN BESKRIVNING                // för VG - Lista alla väntande och/eller klara,              UTAN BESKRIVNING                else if (MyIO.Equals(command, "list"))                {                    // TODO - Här listas allt plus beskrivningen, ändra till beskriv                    if (MyIO.HasArgument(command, "all"))                        Todo.PrintTodoList(active: false, verbose: false);                    else                        Todo.PrintTodoList(active: true, verbose: false);                }                // TODO - Lägg till ny task                // för VG - ny /uppgift/, /redigera/, /kopiera/                else if (MyIO.Equals(command, "new"))                {                    Todo.NewTask();                }                // TODO - Lägg till beskrivning, endast aktiva                // för VG - beskriv ALLT                else if (MyIO.Equals(command, "describe"))                {                    if (MyIO.HasArgument(command, "all"))                        Todo.PrintTodoList(verbose: true, active: false);                    else                        Todo.PrintTodoList(verbose: true, active: true);                }                // TODO - Lägg till spara                // för VG - spara /fil/                else if (MyIO.Equals(command, "save"))                {
+    }    class MainClass    {        public static void Main(string[] args)        {            Console.Title = "To do list";            Console.ForegroundColor = ConsoleColor.DarkMagenta;            Console.WriteLine("\n\nWelcome to the \n -> To do list <- \n\n");            Todo.PrintHelpAndCommandList();            string command;            do            {                command = MyIO.ReadCommand("> ");                if (MyIO.Equals(command, "help"))                {                    Todo.PrintHelpAndCommandList();                }                // TODO - Lägg till sparfunktion                else if (MyIO.Equals(command, "quit"))                {                                       Console.WriteLine("\nGoodbye!");                    Todo.saveToFile();                    break;                }                // TODO - Listar allt just nu, ändra så endast aktiva listas, UTAN BESKRIVNING                // för VG - Lista alla väntande och/eller klara,              UTAN BESKRIVNING                else if (MyIO.Equals(command, "list"))                {                    // TODO - Här listas allt plus beskrivningen, ändra till beskriv                    if (MyIO.HasArgument(command, "all"))                        Todo.PrintTodoList(active: false, verbose: false);                    else if (MyIO.HasArgument(command, "waiting"))                        Todo.PrintTodoList(waiting: true, verbose: false);                    else if (MyIO.HasArgument(command, "completed"))                        Todo.PrintTodoList(completed: true, verbose: false);                    else                        Todo.PrintTodoList(active: true, verbose: false);                }                // TODO - Lägg till ny task                // för VG - ny /uppgift/, /redigera/, /kopiera/                else if (MyIO.Equals(command, "new"))                {                    Todo.NewTask();                }                // TODO - Lägg till beskrivning, endast aktiva                // för VG - beskriv ALLT                else if (MyIO.Equals(command, "describe"))                {                    if (MyIO.HasArgument(command, "all"))                        Todo.PrintTodoList(verbose: true, active: false);                    else                        Todo.PrintTodoList(verbose: true, active: true);                }                // TODO - Lägg till spara                // för VG - spara /fil/                else if (MyIO.Equals(command, "save"))                {
                     Todo.saveToFile();                }
 
                 // TODO - Lägg till ladda
                 // för VG - ladda /fil/
-                else if (MyIO.Equals(command, "load"))                {                    Todo.ReadListFromFile();                }                // TODO - Lägg till aktiv                else if (MyIO.Equals(command, "active"))                {                }                // TODO - Lägg till klar                else if (MyIO.Equals(command, "completed"))                {                    Console.WriteLine("inte skapad än");                }                // TODO - Lägg till vänta                else if (MyIO.Equals(command, "waiting"))                {                    Console.WriteLine("inte skapad än");                }                else                {                    Console.WriteLine($"Unkown command: {command}");                }            }            while (true);
-            Console.Clear();
+                else if (MyIO.Equals(command, "load"))                {                    Todo.ReadListFromFile();                }                // TODO - Lägg till aktiv                else if (MyIO.Equals(command, "active"))                {
+                    Todo.TaskActive();                }
+
+                // TODO - Lägg till vänta
+                else if (MyIO.Equals(command, "waiting"))                {
+                    Todo.TaskWaiting();                }
+
+                // TODO - Lägg till klar
+                else if (MyIO.Equals(command, "completed"))                {
+                    Todo.TaskComplete();                }                else if(MyIO.Equals(command, "clear"))                {                    Console.Clear();                    Todo.PrintHelpAndCommandList();                }                else                {                    Console.WriteLine($"Unkown command: {command}");                }            }            while (true);
         }
     }
 }
