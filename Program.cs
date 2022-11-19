@@ -1,8 +1,6 @@
 ﻿namespace dtp15_todolist
 {    public class Todo
-    {        public static List<TodoItem> list = new List<TodoItem>();
-
-        public const int Active = 1;
+    {        public static List<TodoItem> list = new List<TodoItem>();        public const int Active = 1;
         public const int Waiting = 2;
         public const int Completed = 3;
 
@@ -57,9 +55,9 @@
             }
         }
 
-        // 16.
-        public static void NewTask()        {            // 16.1.            string name, description, priority, total;            Console.WriteLine("What's the task: ");            name = Console.ReadLine();            Console.WriteLine("Priority: ");            priority = Console.ReadLine();            Console.WriteLine("Description: ");            description = Console.ReadLine();            total = "1|" + priority + '|' + name + '|' + description;            Todo.list.Add(new TodoItem(total));        }        public static void TaskActive()        {            Console.Write("Which task do you want to change to active? ");            string task = Console.ReadLine();            Todo.ChangeStatus(task, 1);        }        public static void TaskWaiting()        {            Console.Write("Which task do you want to change to waiting? ");            string task = Console.ReadLine();            Todo.ChangeStatus(task, 2);        }        public static void TaskComplete()        {            Console.Write("Which task do you want to change to completed? ");            string task = Console.ReadLine();            Todo.ChangeStatus(task, 3);        }        // 15.        public static void SaveToFile()        {            string todoFileName = "todo.lis";            Console.WriteLine($"Saving changes to file {todoFileName} ...");            using (StreamWriter sw = new StreamWriter("todo.lis"))            foreach (TodoItem item in Todo.list)            {                sw.WriteLine($"{item.status}|{item.priority}|{item.task}|{item.taskDescription}");            }            Thread.Sleep(1000);            Console.WriteLine("The list is now saved ");            Thread.Sleep(500);        }        // 14.        //public static void WriteListToFile(string task)        //{        //    using (StreamWriter sw = File.AppendText("todo.lis"))        //    {        //        sw.WriteLine(task);        //    }        //}
-
+        // 13.
+        public static void NewTask(string input)        {            // 13.1.            string name, priority, total;            string description = null;            string[] ch = { " " };            string[] words = input.Split(ch, System.StringSplitOptions.RemoveEmptyEntries);            if (words.Length >= 3)            {                name = words[1];                priority = words[2];                for (int i = 3; i < words.Length; i++)                {                    description += words[i] + " ";                }                total = "1|" + priority + '|' + name + '|' + description;                Todo.list.Add(new TodoItem(total));            }            else            {                Console.ForegroundColor = ConsoleColor.DarkCyan;                Console.WriteLine("You also have to enter the tasks name, priority 1-4 and description");                Console.ResetColor();            }
+        }        public static void TaskActive()        {            Console.ForegroundColor = ConsoleColor.DarkGreen;            Console.Write("Which task do you want to change to active? ");            string task = Console.ReadLine();            Todo.ChangeStatus(task, 1);            Console.ResetColor();        }        public static void TaskWaiting()        {            Console.ForegroundColor = ConsoleColor.DarkYellow;            Console.Write("Which task do you want to change to waiting? ");            string task = Console.ReadLine();            Todo.ChangeStatus(task, 2);            Console.ResetColor();        }        public static void TaskComplete()        {            Console.ForegroundColor = ConsoleColor.DarkBlue;            Console.Write("Which task do you want to change to completed? ");            string task = Console.ReadLine();            Todo.ChangeStatus(task, 3);            Console.ResetColor();        }        // 12.        public static void SaveToFile()        {            string todoFileName = "todo.lis";            Console.WriteLine($"Saving tasks to file {todoFileName} ...");            int taskLines = 0;            using (StreamWriter sw = new StreamWriter("todo.lis"))            {                for (int i = 0; i < list.Count; i++)                {                    string line = ($"{list[i].status}|{list[i].priority}|{list[i].task}|{list[i].taskDescription}");                    sw.WriteLine(line);                    taskLines++;                }            }            Thread.Sleep(1000);            Console.WriteLine($"A total of ({taskLines}) tasks is saved");            Thread.Sleep(500);        }
 
         public static void ReadListFromFile()
         {
@@ -105,7 +103,7 @@
         private static void PrintFoot(bool verbose)
         {
             PrintHeadOrFoot(head: false, verbose);
-        }        // 13.         public static void PrintTodoList(bool verbose = true, bool active = false, bool waiting = false, bool completed = false)
+        }        // 11.         public static void PrintTodoList(bool verbose = true, bool active = false, bool waiting = false, bool completed = false)
         {
             PrintHead(verbose);
 
@@ -119,27 +117,25 @@
         }
 
 
-        // 12. & 1.
+        // 10. & 1.
         public static void PrintHelpAndCommandList()
         {
-            //Console.ForegroundColor = ConsoleColor.DarkCyan;
-            Console.WriteLine("\nCommands \n");
-            Console.WriteLine("New ------------------ Make a new task");                          // Delvis klar, behöver säkras från ev. buggar
-            Console.WriteLine("Save ----------------- Save changes");                             // Färdig
-            Console.WriteLine("Load ----------------- Load todo.lis");                            // Färdig            Console.WriteLine("List ----------------- Lists the active tasks in to-do-list");
-            Console.WriteLine("List all ------------- Lists the whole to-do-list");               // Färdig
-            Console.WriteLine("Describe ------------- Show the description of active tasks");     // Färdig
-            Console.WriteLine("Describe all --------- Show the description of all tasks");        // Färdig
-            Console.WriteLine("Active /task/ -------- Change status on task to Active");          // ej färdig funktion
-            Console.WriteLine("Completed /task/ ----- Change status on task to Done");            // ej färdig funktion
-            Console.WriteLine("Waiting /task/ ------- Change status on task to Waiting");         // ej färdig funktion
-            Console.WriteLine("Clear ---------------- Clear console");
-            Console.WriteLine("Help ----------------- Shows this list");
-            Console.WriteLine("Quit ----------------- Save list and end program");                // Färdig
+            Console.ForegroundColor = ConsoleColor.Magenta;
+            Console.WriteLine("\nCommands");
+            Console.ResetColor();
+            Console.WriteLine("New --------------------------------- Make a new task");
+            Console.WriteLine("Save -------------------------------- Save changes");
+            Console.WriteLine("Load -------------------------------- Load todo.lis");            Console.WriteLine("List -------------------------------- Lists the active tasks in to-do-list");
+            Console.WriteLine("List all ---------------------------- Lists the whole to-do-list");
+            Console.WriteLine("Describe ---------------------------- Show the description of active tasks");
+            Console.WriteLine("Describe all ------------------------ Show the description of all tasks");
+            Console.WriteLine("Status /active/waiting/completed/ --- Change status on a task");
+            Console.WriteLine("Clear ------------------------------- Clear console");
+            Console.WriteLine("Help -------------------------------- Shows this list");
+            Console.WriteLine("Quit -------------------------------- Save list and end program");
         }
     }    class MyIO
     {
-        // TODO - tar input, lägg till ToLower så input inte krånglar
         static public string ReadCommand(string prompt)
         {
             Console.Write(prompt);            
@@ -171,20 +167,11 @@
             }
             return false;
         }
-    }    class MainClass    {        public static void Main(string[] args)        {            Console.Title = "To do list";            //Console.ForegroundColor = ConsoleColor.DarkMagenta;            Console.WriteLine("\n\nHello there!");            Console.WriteLine("Let's see what you have on the todo list today");            Todo.PrintHelpAndCommandList();            string command;            do            {                // 1. & 12.                command = MyIO.ReadCommand("> ");                if (MyIO.Equals(command, "help"))                {                    Todo.PrintHelpAndCommandList();                }                // 2.                else if (MyIO.Equals(command, "quit"))                {                                       Console.WriteLine("\nGoodbye!");                    Todo.SaveToFile();                    break;                }                // 3.                else if (MyIO.Equals(command, "list"))                {                    // 3.1.                    if (MyIO.HasArgument(command, "all"))                        Todo.PrintTodoList(active: false, verbose: false);                    else if (MyIO.HasArgument(command, "waiting"))                        Todo.PrintTodoList(waiting: true, verbose: false);                    else if (MyIO.HasArgument(command, "completed"))                        Todo.PrintTodoList(completed: true, verbose: false);                    else                        Todo.PrintTodoList(active: true, verbose: false);                }                // 4.                else if (MyIO.Equals(command, "new"))                {                    Todo.NewTask();                }                // 5.                else if (MyIO.Equals(command, "describe"))                {                    if (MyIO.HasArgument(command, "all"))                        Todo.PrintTodoList(verbose: true, active: false);                    else                        Todo.PrintTodoList(verbose: true, active: true);                }                // 6.                else if (MyIO.Equals(command, "save"))                {
+    }    class MainClass    {        public static void Main(string[] args)        {            Console.ForegroundColor = ConsoleColor.Magenta;            Console.WriteLine("\n\nHello there!");            Console.WriteLine("Let's see what you have on the todo list today \n");            Console.ForegroundColor = ConsoleColor.DarkGray;            Todo.ReadListFromFile();            Console.ResetColor();            Todo.PrintHelpAndCommandList();            string command;            do            {                Console.ForegroundColor = ConsoleColor.Magenta;                command = MyIO.ReadCommand("> ");                Console.ResetColor();                // 1. & 10.                if (MyIO.Equals(command, "help"))                {                    Todo.PrintHelpAndCommandList();                }                // 2.                else if (MyIO.Equals(command, "quit"))                {                                       Console.WriteLine("\nGoodbye!");                    Todo.SaveToFile();                    break;                }                // 3.                else if (MyIO.Equals(command, "list"))                {                    // 3.1.                    if (MyIO.HasArgument(command, "all"))                        Todo.PrintTodoList(active: false, verbose: false);                    else if (MyIO.HasArgument(command, "waiting"))                        Todo.PrintTodoList(waiting: true, verbose: false);                    else if (MyIO.HasArgument(command, "completed"))                        Todo.PrintTodoList(completed: true, verbose: false);                    else                        Todo.PrintTodoList(active: true, verbose: false);                }                // 4.                else if (MyIO.Equals(command, "new"))                {                    Todo.NewTask(command);                                    }                // 5.                else if (MyIO.Equals(command, "describe"))                {                    if (MyIO.HasArgument(command, "all"))                        Todo.PrintTodoList(verbose: true, active: false);                    else                        Todo.PrintTodoList(verbose: true, active: true);                }                // 6.                else if (MyIO.Equals(command, "save"))                {
                     Todo.SaveToFile();                }
 
                 // 7.
-                else if (MyIO.Equals(command, "load"))                {                    Todo.ReadListFromFile();                }                // 8.                else if (MyIO.Equals(command, "active"))                {
-                    Todo.TaskActive();                }
-
-                // 9.
-                else if (MyIO.Equals(command, "waiting"))                {
-                    Todo.TaskWaiting();                }
-
-                // 10.
-                else if (MyIO.Equals(command, "completed"))                {
-                    Todo.TaskComplete();                }                // 11.                else if(MyIO.Equals(command, "clear"))                {                    Console.Clear();                    Todo.PrintHelpAndCommandList();                }                else                {                    Console.ForegroundColor = ConsoleColor.DarkRed;                    Console.WriteLine($"Unkown command: {command}");                    Console.ResetColor();                }            }            while (true);
+                else if (MyIO.Equals(command, "load"))                {                    Todo.ReadListFromFile();                }                // 8.                else if (MyIO.Equals(command, "status"))                {                                        if (MyIO.HasArgument(command, "active"))                    {                        Todo.TaskActive();                    }                    else if (MyIO.HasArgument(command, "waiting"))                    {                        Todo.TaskWaiting();                    }                    else if (MyIO.HasArgument(command, "completed"))                    {                        Todo.TaskComplete();                    }                    else                    {                        Console.ForegroundColor = ConsoleColor.DarkRed;                        Console.WriteLine("Hold up!");                        Console.ForegroundColor = ConsoleColor.DarkYellow;                        Console.WriteLine("You need to write Status together with Active, Waiting or Completed.");                        Console.ResetColor();                    }                }                // 9.                else if(MyIO.Equals(command, "clear"))                {                    Console.Clear();                    Todo.PrintHelpAndCommandList();                }                else                {                    Console.ForegroundColor = ConsoleColor.DarkRed;                    Console.WriteLine($"Unkown command: {command}");                    Console.ResetColor();                }            }            while (true);
         }
     }
 }
